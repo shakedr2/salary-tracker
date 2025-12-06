@@ -1,5 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap');
 
+:root {
+    --main-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 80%, #43e97b 100%);
+    --glass-bg: rgba(255,255,255,0.18);
+    --glass-blur: blur(32px);
+    --neon-blue: #667eea;
+    --neon-violet: #764ba2;
+    --neon-green: #43e97b;
+    --neon-yellow: #ffeaa7;
+    --primary-shadow: 0 8px 32px 0 rgba(102, 126, 234, 0.37);
+    --card-shadow: 0 4px 24px 2px rgba(67,233,123,0.19), 0 1.5px 15px 0px #764ba266;
+    --radius-main: 26px;
+    --transition-fast: all 0.22s cubic-bezier(.48,.26,.37,1.32);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,260 +22,353 @@
 
 body {
     font-family: 'Heebo', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--main-gradient);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
 }
 
 /* דולרים מעופפים */
 .money-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
     pointer-events: none;
     z-index: 1;
 }
 
 .money {
     position: absolute;
-    font-size: 40px;
-    animation: float 4s ease-in-out infinite;
-    opacity: 0.7;
+    font-size: 42px;
+    animation: float 3.6s ease-in-out infinite;
+    opacity: 0.84;
+    filter: drop-shadow(0 2px 12px var(--neon-green));
 }
 
 @keyframes float {
     0%, 100% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(0) rotate(0deg) scale(1);
+    }
+    30% {
+        transform: translateY(-38px) rotate(20deg) scale(1.08);
     }
     50% {
-        transform: translateY(-30px) rotate(180deg);
+        transform: translateY(-11px) rotate(180deg) scale(1.12);
     }
 }
 
 /* קונטיינר ראשי */
 .container {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 30px;
-    padding: 40px;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: slideIn 0.8s ease-out;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border-radius: var(--radius-main);
+    padding: 42px 36px 34px 36px;
+    max-width: 510px;
+    width: 92%;
+    box-shadow: var(--primary-shadow);
+    animation: slideIn 0.7s cubic-bezier(.48,.26,.37,1.32);
     position: relative;
     z-index: 10;
-    max-height: 90vh;
+    max-height: 92vh;
     overflow-y: auto;
+    border-top: 1.3px solid #fff6;
+    border-left: 1.3px solid #fff6;
 }
 
+/* גליץ קטן מסביב */
+.container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: 0 0 0px 4px #fff1, 0 0 22px 4px var(--neon-green);
+    opacity: 0.08;
+    z-index: 2;
+}
+
+/* הטרנסישן */
 @keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateY(50px) scale(0.9);
+        transform: translateY(48px) scale(0.94) skewY(8deg);
     }
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0) scale(1) skewY(0);
     }
 }
 
 /* כותרת */
 .header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .title {
-    font-size: 2.5rem;
+    font-size: 2.6rem;
     font-weight: 900;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--main-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 10px;
+    margin-bottom: 7px;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 13px #764ba24c;
+    filter: blur(0.1px);
 }
 
 .subtitle {
     color: #666;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    letter-spacing: 0.1px;
+    opacity: 0.8;
 }
 
 /* כרטיס שכר ראשי */
 .salary-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 20px;
-    padding: 30px;
+    background: linear-gradient(110deg, #667eea 0%, #764ba2 73%, #43e97b 100%);
+    border-radius: 22px;
+    padding: 34px 25px;
     text-align: center;
-    margin-bottom: 30px;
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-    animation: pulse 2s ease-in-out infinite;
+    margin-bottom: 29px;
+    box-shadow: var(--card-shadow);
+    animation: pulse 2.8s cubic-bezier(.68,-0.55,.27,1.55) infinite;
+    border-bottom: 2px solid #43e97b66;
+    position: relative;
+}
+
+/* הדגשה ניאון קל */
+.salary-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 0 0 5px #43e97b40;
+    opacity: 0.2;
+    pointer-events: none;
 }
 
 @keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.02);
-    }
+    0%, 100% { transform: scale(1); }
+    55% { transform: scale(1.019); }
+    70% { filter: brightness(1.035); }
 }
 
 .salary-amount {
     display: flex;
     justify-content: center;
     align-items: baseline;
-    gap: 10px;
+    gap: 11px;
 }
 
 .currency {
-    font-size: 2rem;
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 2.2rem;
+    color: #fffcef;
+    text-shadow: 0 1px 6px #43e97b70;
+    filter: drop-shadow(0 1px 6px var(--neon-green));
 }
 
 .amount {
-    font-size: 3.5rem;
+    font-size: 3.8rem;
     font-weight: 900;
     color: white;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 13px #764ba24c;
 }
 
 .salary-label {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 1rem;
-    margin-top: 10px;
+    color: #fffbe0d9;
+    font-size: 1.02rem;
+    margin-top: 8px;
+    opacity: 0.99;
 }
 
 /* סטטיסטיקות */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 30px;
+    gap: 17px;
+    margin-bottom: 31px;
 }
 
 .stat-card {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
+    background: rgba(255,255,255,0.91);
+    border-radius: 19px;
+    padding: 24px 10px 20px 10px;
     text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    box-shadow: 0 4px 14px rgba(67,233,123,0.14), 0 1.5px 10px 0px #764ba249;
+    transition: var(--transition-fast);
+    filter: saturate(1.03);
+    border: 1.6px solid #43e97b0a;
+    position: relative;
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px) scale(1.07);
+    box-shadow: 0 8px 34px rgba(102, 126, 234, 0.27);
+    filter: brightness(1.04) saturate(1.08);
 }
 
 .stat-icon {
-    font-size: 2rem;
+    font-size: 2.3rem;
     margin-bottom: 10px;
+    filter: drop-shadow(0 2px 4px var(--neon-blue));
 }
 
 .stat-value {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    color: #667eea;
-    margin-bottom: 5px;
+    color: var(--neon-blue);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
 }
 
 .stat-label {
-    font-size: 0.8rem;
-    color: #666;
+    font-size: 0.89rem;
+    color: #888;
+    letter-spacing: 0.02em;
 }
 
 /* פירוט יומי */
 .breakdown-section {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
 .section-title {
-    font-size: 1.2rem;
+    font-size: 1.26rem;
     font-weight: 700;
-    color: #333;
-    margin-bottom: 15px;
+    color: #2b2b2b;
+    margin-bottom: 14px;
+    letter-spacing: .4px;
+    text-shadow: 0 0 3px #667eea33;
 }
 
 .breakdown-list {
-    max-height: 300px;
+    max-height: 308px;
     overflow-y: auto;
 }
 
 .breakdown-item {
-    background: #f8f9fa;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 10px;
+    background: #fbfbfdc3;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 9px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: all 0.3s ease;
+    transition: var(--transition-fast);
+    box-shadow: 0 1px 3px #667eea13;
+    border: 1.2px solid #764ba216;
 }
 
 .breakdown-item:hover {
-    background: #e9ecef;
-    transform: translateX(-5px);
+    background: #e6ecfa;
+    transform: translateX(-5px) scale(1.012);
+    box-shadow: 0 4px 14px #667eea21;
 }
 
 .breakdown-item.weekend {
-    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+    background: linear-gradient(135deg, var(--neon-yellow) 0%, #fdcb6e 119%);
+    border: 1.6px solid #fdcb6e69;
+    box-shadow: 0 3px 12px #fdcb6e39;
 }
 
 .breakdown-date {
     font-weight: 700;
-    color: #333;
+    color: #363636;
+    font-size: 1.03rem;
 }
 
 .breakdown-details {
-    font-size: 0.8rem;
+    font-size: 0.83rem;
     color: #666;
+    letter-spacing: 0.03em;
 }
 
 .breakdown-salary {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #667eea;
+    color: var(--neon-blue);
+    text-shadow: 0 1px 6px #667eea13;
 }
 
 /* כפתור רענון */
 .refresh-btn {
     width: 100%;
-    padding: 15px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    padding: 16px;
+    background: var(--main-gradient);
+    color: #fff;
     border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 700;
+    border-radius: 11px;
+    font-size: 1.16rem;
+    font-weight: 800;
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin-bottom: 15px;
+    transition: var(--transition-fast);
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+    box-shadow: 0 3px 20px #667eea1f, 0 0.8px 6px 0px #764ba244;
+    position: relative;
 }
 
-.refresh-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+.refresh-btn:hover:not(:disabled) {
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 11px 27px 0px #43e97b44;
+    filter: brightness(1.10) saturate(1.09);
 }
 
 .refresh-btn:active {
-    transform: translateY(0);
+    transform: translateY(0.5px) scale(0.99);
+    filter: brightness(0.98);
 }
 
 .refresh-btn:disabled {
-    opacity: 0.6;
+    opacity: 0.65;
     cursor: not-allowed;
+}
+
+.refresh-btn::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 4.5px;
+    left: 20%;
+    right: 20%;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #43e97b4c 0%, #fff0 95%);
+    opacity: 0;
+    transition: opacity .25s;
+}
+
+.refresh-btn:hover::after {
+    opacity: 1;
 }
 
 /* עדכון אחרון */
 .last-update {
     text-align: center;
-    color: #999;
-    font-size: 0.8rem;
+    color: #aaa;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    margin-top: 7px;
+    opacity: 0.72;
+    font-style: italic;
 }
 
 /* טוען */
 .loading {
     text-align: center;
+    color: #667eea;
+    font-size: 1.01rem;
+    margin-top: 18px;
+    animation: fadeGlow 2s infinite alternate;
+}
+
+@keyframes fadeGlow {
+    from { opacity: 0.75; text-shadow: 0 0 12px #667eea; }
+    to { opacity: 1; text-shadow: 0 0 24px #764ba2; }
+}
