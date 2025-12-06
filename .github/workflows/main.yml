@@ -1,0 +1,48 @@
+name: Deploy to EC2
+
+# Trigger: כל push ל-main branch
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # אפשרות להרצה ידנית
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # שלב 1: משיכת הקוד
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    # שלב 2: התחברות ל-EC2 ו-deployment
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: 13.222.40.212
+        username: ubuntu
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          # עצירת השרת הישן
+          pkill -f "python.*backend.app" || true
+          
+          # עדכון הקוד
+          cd ~/salary-tracker
+          git pull origin main
+          
+          # הפעלת environment
+          source venv/bin/activate
+          
+          # התקנת dependencies חדשים (אם יש)
+          pip install -r requirements.txt --quiet
+          
+          # הפעלת השרת מחדש ברקע
+          nohup python -m backend.app > app.log 2>&1 &
+          
+          echo "Deployment completed successfully!"
+    
+    # שלב 3: בדיקת health
+    - name: Check deployment health
+      run: |
+        sleep 5
+        curl -f http://13.222.40.212:5000 || echo "Warning: Health check failed"
