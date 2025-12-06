@@ -37,9 +37,8 @@ class Config:
     # הגדרות Flask
     FLASK_HOST = '0.0.0.0'
     FLASK_PORT = 5000
-    FLASK_DEBUG = True
+    FLASK_DEBUG = False
 
     # נתיבי קבצים
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    DATA_DIR = os.path.join(BASE_DIR, 'data')
-    SALARY_DATA_FILE = os.path.join(DATA_DIR, 'salary_data.json')
+    FLASK_DEBUG = False    SALARY_DATA_FILE = os.path.join(DATA_DIR, 'salary_data.json')
