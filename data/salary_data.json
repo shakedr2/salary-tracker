@@ -1,0 +1,62 @@
+{
+  "total_salary": 3212.5,
+  "total_hours": 36.28,
+  "regular_hours": 22.18,
+  "overtime_125_hours": 2.0,
+  "overtime_150_hours": 12.1,
+  "breakdown": [
+    {
+      "date": "נתוני הסינון",
+      "day": "הסתר שורות ריקות",
+      "site": "",
+      "entry": "מספרמדווחים:",
+      "exit": "",
+      "hours": 0.0,
+      "regular_hours": 0.0,
+      "overtime_125_hours": 0,
+      "overtime_150_hours": 0,
+      "salary": 0.0,
+      "is_weekend": false
+    },
+    {
+      "date": "ב",
+      "day": "",
+      "site": "01/12/2025",
+      "entry": "ת\"אצמוד",
+      "exit": "06:57",
+      "hours": 22.1,
+      "regular_hours": 8,
+      "overtime_125_hours": 2,
+      "overtime_150_hours": 12.100000000000001,
+      "salary": 2148.75,
+      "is_weekend": false
+    },
+    {
+      "date": "ג",
+      "day": "",
+      "site": "02/12/2025",
+      "entry": "ת\"אזקיף",
+      "exit": "18:55",
+      "hours": 7.166666666666667,
+      "regular_hours": 7.166666666666667,
+      "overtime_125_hours": 0,
+      "overtime_150_hours": 0,
+      "salary": 537.5,
+      "is_weekend": false
+    },
+    {
+      "date": "ד",
+      "day": "",
+      "site": "03/12/2025",
+      "entry": "ת\"אזקיף",
+      "exit": "20:30",
+      "hours": 7.016666666666667,
+      "regular_hours": 7.016666666666667,
+      "overtime_125_hours": 0,
+      "overtime_150_hours": 0,
+      "salary": 526.25,
+      "is_weekend": false
+    }
+  ],
+  "timestamp": "2025-12-06T12:38:22.321447"
+}

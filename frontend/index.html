@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰 מחשבון השכר שלי</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- דולרים מעופפים -->
+    <div class="money-container" id="moneyContainer"></div>
+
+    <!-- קונטיינר ראשי -->
+    <div class="container">
+        <div class="header">
+            <h1 class="title">💰 השכר שלי</h1>
+            <p class="subtitle">עדכון אוטומטי מ-YLM Inspector</p>
+        </div>
+
+        <!-- כרטיס שכר ראשי -->
+        <div class="salary-card">
+            <div class="salary-amount" id="totalSalary">
+                <span class="currency">₪</span>
+                <span class="amount">0.00</span>
+            </div>
+            <p class="salary-label">שכר ברוטו החודש</p>
+        </div>
+
+        <!-- סטטיסטיקות -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-value" id="totalHours">0</div>
+                <div class="stat-label">סה"כ שעות</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value" id="regularHours">0</div>
+                <div class="stat-label">שעות רגילות</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-value" id="overtimeHours">0</div>
+                <div class="stat-label">שעות נוספות</div>
+            </div>
+        </div>
+
+        <!-- פירוט יומי -->
+        <div class="breakdown-section">
+            <h3 class="section-title">פירוט יומי</h3>
+            <div class="breakdown-list" id="breakdownList">
+                <div class="loading">טוען נתונים...</div>
+            </div>
+        </div>
+
+        <!-- כפתור רענון -->
+        <button class="refresh-btn" id="refreshBtn">
+            🔄 רענן נתונים
+        </button>
+
+        <!-- עדכון אחרון -->
+        <div class="last-update">
+            עדכון אחרון: <span id="lastUpdate">-</span>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
