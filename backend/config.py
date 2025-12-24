@@ -4,15 +4,26 @@
 קובץ הגדרות למערכת
 """
 import os
+from dotenv import load_dotenv
+
+# טען משתנים מקובץ .env
+load_dotenv()
 
 
 class Config:
     """הגדרות כלליות"""
 
-    # פרטי התחברות YLM
-    YLM_USERNAME = "209368927"
-    YLM_PASSWORD = "209368927"
+    # פרטי התחברות YLM (טוענים מתוך .env)
+    YLM_USERNAME = os.getenv('YLM_USERNAME')
+    YLM_PASSWORD = os.getenv('YLM_PASSWORD')
     YLM_URL = "https://ins.ylm.co.il"
+    
+    # בדוק שהנתונים נטענו בהצלחה
+    if not YLM_USERNAME or not YLM_PASSWORD:
+        raise ValueError(
+            "❌ שגיאה: חסרים משתנים סביבה חיוניים!\n"
+            "וודא שלקובץ .env יש את המשתנים YLM_USERNAME ו-YLM_PASSWORD"
+        )
 
     # הגדרות שכר
     HOURLY_RATE = 75
