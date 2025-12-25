@@ -226,6 +226,125 @@ bash agent/quick_check.sh
 ### Full Documentation
 See [agent/README.md](agent/README.md) for complete agent documentation.
 
+## 📊 Observability & Monitoring
+
+### Structured Logging
+The application uses structured JSON logging compatible with CloudWatch Logs:
+- All logs are in JSON format
+- Includes timestamps, log levels, and context
+- Ready for CloudWatch Logs ingestion
+
+### Metrics Endpoint
+Access application metrics at `/api/metrics`:
+```bash
+curl http://localhost:5000/api/metrics
+```
+
+Returns:
+- Scraping metrics (runs, success rate, duration)
+- Calculation metrics (days processed, total salary)
+- API metrics (requests, errors)
+- Health metrics (uptime, status)
+
+### CloudWatch Dashboard
+After deploying to AWS, set up a CloudWatch Dashboard:
+
+1. **Go to CloudWatch Console** → Dashboards → Create Dashboard
+2. **Add widgets for:**
+   - EC2 CPU Utilization
+   - Application Health (from `/api/health`)
+   - Scraping Success Rate
+   - API Request Count
+   - Error Rate
+
+3. **Use Lambda Monitor** (from `agent/lambda_monitor.py`) to push custom metrics
+
+### Monitoring Setup
+```bash
+# Deploy Lambda monitor
+cd agent
+zip lambda_monitor.zip lambda_monitor.py
+# Upload to AWS Lambda via console or CLI
+
+# Subscribe to SNS alerts
+aws sns subscribe \
+  --topic-arn arn:aws:sns:us-east-1:ACCOUNT:salary-tracker-alerts \
+  --protocol email \
+  --notification-endpoint your-email@example.com
+```
+
+## 🔐 Authentication (Optional)
+
+The project includes basic JWT authentication for multi-user support:
+
+### Usage
+```python
+from backend.auth import require_auth, generate_token, authenticate_user
+
+# Login endpoint
+@app.route('/api/login', methods=['POST'])
+def login():
+    data = request.json
+    user = authenticate_user(data['username'], data['password'])
+    if user:
+        token = generate_token(user['user_id'], user['username'])
+        return jsonify({"token": token})
+    return jsonify({"error": "Invalid credentials"}), 401
+
+# Protected endpoint
+@app.route('/api/protected', methods=['GET'])
+@require_auth
+def protected():
+    return jsonify({"message": f"Hello {request.current_user['username']}"})
+```
+
+### Client Usage
+```javascript
+// Login
+const response = await fetch('/api/login', {
+  method: 'POST',
+  body: JSON.stringify({username: 'demo', password: 'demo123'})
+});
+const {token} = await response.json();
+
+// Use token
+fetch('/api/protected', {
+  headers: {'Authorization': `Bearer ${token}`}
+});
+```
+
+## 🚀 CI/CD Pipeline
+
+The project includes GitHub Actions CI/CD pipeline (`.github/workflows/ci-cd.yml`):
+
+### Pipeline Stages
+1. **Test** - Run pytest with coverage
+2. **Quality** - Run automated agent checks
+3. **Terraform** - Validate infrastructure (on main branch)
+4. **Docker** - Build and push Docker image (on main branch)
+
+### Setup
+1. Add secrets to GitHub:
+   - `AWS_ACCESS_KEY_ID`
+   - `AWS_SECRET_ACCESS_KEY`
+   - `DOCKER_USERNAME`
+   - `DOCKER_PASSWORD`
+
+2. Push to trigger pipeline:
+```bash
+git push origin main
+```
+
+### Manual Deployment
+```bash
+# After CI passes, deploy manually:
+cd infra
+terraform apply
+
+# Or use automated deployment:
+bash agent/deploy.sh
+```
+
 ## 🔐 Security
 
 - ✅ Dependabot enabled for dependency updates

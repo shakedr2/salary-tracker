@@ -40,6 +40,14 @@ from .config import (
 logger = logging.getLogger("backend.scraper")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
+# Import structured logger for YLMScraper class
+try:
+    from .observability import get_structured_logger
+except ImportError:
+    # Fallback if observability module not available
+    def get_structured_logger(name: str):
+        return logger
+
 
 class ScraperError(Exception):
     pass
@@ -402,3 +410,46 @@ def scrape_month(year: int, month: int) -> List[Dict[str, Any]]:
             backoff *= SCRAPER_RETRY_BACKOFF
     # Should not reach here
     raise ScraperError("Scraping failed (unexpected exit)")
+
+
+class YLMScraper:
+    """
+    YLM Scraper class wrapper for easier usage.
+    
+    Usage:
+        scraper = YLMScraper()
+        records = scraper.scrape_attendance()
+    """
+    
+    def __init__(self) -> None:
+        """Initialize scraper."""
+        self.logger = get_structured_logger("backend.scraper")
+    
+    def scrape_attendance(self, year: Optional[int] = None, month: Optional[int] = None) -> List[Dict[str, Any]]:
+        """
+        Scrape attendance records.
+        
+        Args:
+            year: Target year (defaults to current year)
+            month: Target month (defaults to current month)
+        
+        Returns:
+            List of attendance record dictionaries
+        
+        Raises:
+            ScraperError: If scraping fails
+        """
+        from datetime import datetime
+        now = datetime.utcnow()
+        target_year = year or now.year
+        target_month = month or now.month
+        
+        self.logger.info("Starting attendance scraping", year=target_year, month=target_month)
+        
+        try:
+            records = scrape_month(target_year, target_month)
+            self.logger.info("Scraping completed", records_count=len(records))
+            return records
+        except ScraperError as e:
+            self.logger.error("Scraping failed", error=str(e))
+            raise
