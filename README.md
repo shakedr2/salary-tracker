@@ -14,6 +14,7 @@ YLM Salary Tracker is a production-ready web application that automatically scra
 - 🐳 **Docker Ready** - Fully containerized for easy deployment
 - ☁️ **AWS Optimized** - Terraform IaC for AWS Free Tier
 - 🔒 **Secure** - Environment variables and security best practices
+- 🤖 **Automated Agent** - Quality checks, monitoring, and improvements
 
 ## 🏗️ Architecture
 
@@ -29,7 +30,12 @@ salary-tracker/
 │   ├── style.css
 │   └── script.js
 ├── infra/           # Terraform Infrastructure as Code
-│   └── main.tf      # AWS EC2 deployment
+│   ├── main.tf      # AWS EC2 deployment
+│   └── cloudwatch_lambda.tf # Monitoring & Lambda
+├── agent/           # 🤖 Automated Agent
+│   ├── main_agent.py # Main quality checker
+│   ├── lambda_monitor.py # AWS Lambda monitoring
+│   └── deploy.sh    # Automated deployment
 ├── data/            # Local data storage
 ├── Dockerfile       # Multi-stage Docker build
 └── requirements.txt # Python dependencies
@@ -197,6 +203,29 @@ Edit `infra/main.tf` to customize:
 - **Infrastructure:** Terraform, AWS EC2
 - **Web Scraping:** Selenium, BeautifulSoup
 
+## 🤖 Automated Agent
+
+The project includes an automated agent that checks and improves the software:
+
+### Quick Check
+```bash
+# Run automated quality checks
+python agent/main_agent.py
+
+# Or use the quick check script
+bash agent/quick_check.sh
+```
+
+### Features
+- ✅ **Code Quality Checks** - Syntax, imports, security
+- ✅ **Test Execution** - Automated test runs
+- ✅ **AWS Infrastructure Monitoring** - EC2, Security Groups, CloudWatch
+- ✅ **Improvement Suggestions** - Automated recommendations
+- ✅ **Lambda Integration** - CloudWatch-based monitoring
+
+### Full Documentation
+See [agent/README.md](agent/README.md) for complete agent documentation.
+
 ## 🔐 Security
 
 - ✅ Dependabot enabled for dependency updates
@@ -204,6 +233,7 @@ Edit `infra/main.tf` to customize:
 - ✅ Security group configured (SSH + HTTP only)
 - ✅ Non-root user in Docker container
 - ✅ Multi-stage builds for minimal attack surface
+- ✅ Automated security checks via agent
 
 ## 📝 Development
 
