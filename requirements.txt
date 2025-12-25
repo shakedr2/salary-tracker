@@ -1,6 +1,17 @@
-flask
-flask-cors
-requests
-selenium
-webdriver-manager
-pandas
+# Python dependencies for YLM Salary Tracker
+# Backend
+Flask==3.0.0
+Flask-CORS==4.0.0
+python-dotenv==1.0.0
+
+# Selenium for web scraping
+selenium==4.15.2
+webdriver-manager==4.0.1
+
+# Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+
+# Optional: linting and formatting
+# flake8==6.1.0
+# black==23.11.0
